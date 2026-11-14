@@ -1,0 +1,64 @@
+# Checks the enterprise architecture (10-enterprise-architecture/) with ArChreator's validators, and data
+# governance's own files (20-data-governance/): the information assets, the Ossie metrics and the matrices.
+# Governance cites the architecture's data objects, so it is checked when either changes.
+name: Architecture and governance
+
+on:
+  pull_request:
+    paths:
+      - 10-enterprise-architecture/**
+      - 20-data-governance/**
+      - .github/workflows/architecture-and-governance.yml
+  push:
+    branches: [main]
+    paths:
+      - 10-enterprise-architecture/**
+      - 20-data-governance/**
+      - .github/workflows/architecture-and-governance.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: architecture-and-governance-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  architecture:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 10-enterprise-architecture
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - name: Links resolve
+        run: python3 scripts/check_links.py
+
+      - name: Every element ID resolves, and every document says how far it is validated
+        run: python3 scripts/check_model.py
+
+      - name: Every model page speaks about its subject
+        run: python3 scripts/check_prose.py
+
+  governance:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 20-data-governance
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - name: Information assets, metrics and matrices
+        run: |
+          pip install pyyaml jsonschema
+          python scripts/check.py --check
