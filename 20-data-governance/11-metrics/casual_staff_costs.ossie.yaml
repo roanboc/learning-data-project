@@ -1,0 +1,79 @@
+# Two of the three measures that once shared the name casual teaching cost (DEC-FIN-05), each defined
+# once, in Apache Ossie 0.1.1 (7-standards/ossie-0.1.1.schema.json), with its owner and the glossary's
+# words. The third, casual hours contracted, is Planning's term in the glossary and isn't built yet.
+# The data project builds each as a Unity Catalog metric view, and its check fails if a metric view's
+# measure has no definition here or its expression differs from the DATABRICKS one below
+# (30-data-project/scripts/check/from_governance.py).
+version: "0.1.1"
+semantic_model:
+  - name: casual_staff_costs
+    description: What casual staff cost the university, by the teaching period it was done in or the pay day that paid it.
+    ai_context:
+      instructions: >
+        Casual teaching cost is Finance's, by teaching period, with on-costs. Casual pay paid is HR's,
+        by pay day, before tax and on-costs. They are different sums: never add or compare one to the other.
+    datasets:
+      - name: casual_claims
+        source: marts.mart_finance__casual_claims
+        description: The claims approved for casual staff, one row per claim line, with its duty and on-cost rate.
+        fields:
+          - name: faculty_name
+            expression: {dialects: [{dialect: ANSI_SQL, expression: faculty_name}]}
+          - name: unit_code
+            expression: {dialects: [{dialect: ANSI_SQL, expression: unit_code}]}
+          - name: teaching_period
+            expression: {dialects: [{dialect: ANSI_SQL, expression: teaching_period}]}
+            dimension: {is_time: true}
+          - name: amount
+            expression: {dialects: [{dialect: ANSI_SQL, expression: amount}]}
+          - name: on_cost_rate
+            expression: {dialects: [{dialect: ANSI_SQL, expression: on_cost_rate}]}
+          - name: is_teaching_duty
+            expression: {dialects: [{dialect: ANSI_SQL, expression: is_teaching_duty}]}
+      - name: casual_pay_paid
+        source: marts.mart_finance__casual_pay_paid
+        description: What casual staff are paid on each pay day, by faculty and unit. Totals only.
+        fields:
+          - name: faculty_name
+            expression: {dialects: [{dialect: ANSI_SQL, expression: faculty_name}]}
+          - name: unit_code
+            expression: {dialects: [{dialect: ANSI_SQL, expression: unit_code}]}
+          - name: pay_day
+            expression: {dialects: [{dialect: ANSI_SQL, expression: pay_day}]}
+            dimension: {is_time: true}
+          - name: casual_pay_paid
+            expression: {dialects: [{dialect: ANSI_SQL, expression: casual_pay_paid}]}
+    metrics:
+      - name: casual_teaching_cost
+        description: >
+          What the casual teaching in a teaching period costs, from the claims approved for casual staff
+          for tutorials, marking and consultation, plus on-costs, by the teaching period it was done in,
+          not the day it was paid. Owned by Rohan Desai, Finance.
+        expression:
+          dialects:
+            - dialect: ANSI_SQL
+              expression: >-
+                SUM(casual_claims.amount * (1 + casual_claims.on_cost_rate))
+                FILTER (WHERE casual_claims.is_teaching_duty)
+            - dialect: DATABRICKS
+              expression: SUM(amount * (1 + on_cost_rate)) FILTER (WHERE is_teaching_duty)
+        ai_context:
+          synonyms: [sessional teaching cost, casual teaching spend]
+        custom_extensions:
+          - vendor_name: DATABRICKS
+            data: '{"metric_view": "casual_teaching_cost", "measure": "casual_teaching_cost", "format": "currency AUD"}'
+      - name: casual_pay_paid
+        description: >
+          What casual staff are paid on each pay day, from the claims approved for it, before tax and
+          on-costs, by the pay day that paid it. Owned by Ingrid Holm, HR.
+        expression:
+          dialects:
+            - dialect: ANSI_SQL
+              expression: SUM(casual_pay_paid.casual_pay_paid)
+            - dialect: DATABRICKS
+              expression: SUM(casual_pay_paid)
+        ai_context:
+          synonyms: [casual pay, sessional pay paid]
+        custom_extensions:
+          - vendor_name: DATABRICKS
+            data: '{"metric_view": "casual_pay_paid", "measure": "casual_pay_paid", "format": "currency AUD"}'

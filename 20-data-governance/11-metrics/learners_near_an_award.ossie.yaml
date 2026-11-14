@@ -1,0 +1,62 @@
+# Planning's measures, defined once, in Apache Ossie 0.1.1, the open format for semantic models
+# (7-standards/ossie-0.1.1.schema.json). Owned by Clara Jensen, Planning; the words come from her
+# question and the glossary. The dbt project builds them as MetricFlow metrics
+# (30-data-project/models/marts/planning/_planning__semantic.yml), and its check fails if a metric there
+# has no definition here, or names another measure or filter (30-data-project/scripts/check/from_governance.py).
+version: "0.1.1"
+semantic_model:
+  - name: learners_near_an_award
+    description: >
+      Planning's fact, one row per learner per award, as at census date: how close each learner is to
+      the award they study for.
+    ai_context:
+      instructions: >
+        Count learners once each. The numbers are as at census date and reconcile with the census
+        report. Group by faculty for Planning's answer.
+    datasets:
+      - name: near_award
+        source: marts.mart_planning__near_award
+        primary_key: [learner_award_key]
+        description: One row per learner per award, as at census date.
+        fields:
+          - name: learner_key
+            expression: {dialects: [{dialect: ANSI_SQL, expression: learner_key}]}
+          - name: census_date
+            expression: {dialects: [{dialect: ANSI_SQL, expression: census_date}]}
+            dimension: {is_time: true}
+          - name: faculty_name
+            expression: {dialects: [{dialect: ANSI_SQL, expression: faculty_name}]}
+          - name: award_type
+            expression: {dialects: [{dialect: ANSI_SQL, expression: award_type}]}
+          - name: is_enrolled
+            expression: {dialects: [{dialect: ANSI_SQL, expression: is_enrolled}]}
+          - name: is_near_award
+            expression: {dialects: [{dialect: ANSI_SQL, expression: is_near_award}]}
+            description: Within the credit points the var near_award_credit_points sets, 15 today.
+          - name: credit_points_earned
+            expression: {dialects: [{dialect: ANSI_SQL, expression: credit_points_earned}]}
+    metrics:
+      - name: learners_near_graduate_certificate
+        description: >
+          Planning's question: learners studying for a graduate certificate and within 15 credit
+          points of it, as at census date. By faculty for the answer by faculty.
+        expression:
+          dialects:
+            - dialect: ANSI_SQL
+              expression: >-
+                COUNT(DISTINCT near_award.learner_key) FILTER (WHERE near_award.is_near_award
+                AND near_award.award_type = 'graduate certificate')
+        ai_context:
+          synonyms: [learners near a graduate certificate, learners close to a graduate certificate]
+        custom_extensions:
+          - vendor_name: DBT
+            data: '{"metric": "learners_near_graduate_certificate", "measure": "learners", "agg": "count_distinct", "filter": ["is_near_award", "award_type = ''graduate certificate''"]}'
+      - name: credit_points_towards_award
+        description: Credit points learners held towards the awards they're enrolled in, as at census date.
+        expression:
+          dialects:
+            - dialect: ANSI_SQL
+              expression: SUM(near_award.credit_points_earned) FILTER (WHERE near_award.is_enrolled)
+        custom_extensions:
+          - vendor_name: DBT
+            data: '{"metric": "credit_points_towards_award", "measure": "credit_points_earned", "agg": "sum", "filter": ["is_enrolled"]}'

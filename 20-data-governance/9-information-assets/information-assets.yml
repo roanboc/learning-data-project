@@ -1,0 +1,169 @@
+# The university's information assets that the questions need: each one's owner, who looks after it day to
+# day, how sensitive it is, where it is first recorded, its shared table and contract, and the data products
+# that serve it. Written by data governance; each owner confirms their own rows.
+#
+# Each asset refines a data object on the enterprise architecture's map (data_object: UNI.DOBJ<n>.<n>, in
+# 10-enterprise-architecture/architecture/3_information/), and adds only what governance decides. The
+# map says what exists and where; this says who answers for it and how it is protected.
+#
+# Checked by scripts/check.py: every owner is in 2-owners/owners.yml, every term in the business glossary,
+# every data object on the map, every contract and product a file here. The matrices in 10-matrices/ are
+# generated from it.
+
+assets:
+
+  - name: person and identifier
+    data_object: UNI.DOBJ1.1
+    glossary_term: none, confirmed by data governance on 2026-10-20
+    owner: "Mei Tanaka, registrar's office"
+    steward: registrar's office stewards
+    level: confidential
+    personal_data: direct
+    recorded_first_in: student system
+    copies_in: [learning platform, short-courses system, HR system, research system, alumni system]
+    shared_table: none yet (the person domain is a conceptual model only)
+    enterprise_contract: none
+    data_products: []
+
+  - name: learner
+    data_object: UNI.DOBJ2.1
+    glossary_term: none, confirmed by data governance on 2026-10-20
+    owner: "Mei Tanaka, registrar's office"
+    steward: registrar's office stewards
+    level: confidential
+    personal_data: direct
+    recorded_first_in: student system
+    copies_in: [learning platform, short-courses system, portal]
+    shared_table: core_learner
+    enterprise_contract: 5-data-contracts/core_learner_v1.yaml
+    data_products: [learner_records, learners_near_an_award, learner_wallet, tuition_forgone, short_course_follow_ups]
+
+  - name: credential
+    data_object: UNI.DOBJ2.2
+    glossary_term: none, confirmed by data governance on 2026-10-20
+    owner: "Mei Tanaka, registrar's office"
+    steward: registrar's office stewards
+    level: confidential
+    personal_data: pseudonymous
+    recorded_first_in: student system
+    copies_in: [learning platform]
+    shared_table: core_credential
+    enterprise_contract: 5-data-contracts/core_credential_v2.yaml
+    data_products: [learner_records, learner_wallet]
+
+  - name: credit towards an award
+    data_object: UNI.DOBJ2.3
+    glossary_term: none, confirmed by data governance on 2026-10-20
+    owner: "Mei Tanaka, registrar's office"
+    steward: registrar's office stewards
+    level: confidential
+    personal_data: pseudonymous
+    recorded_first_in: student system
+    copies_in: [learning platform]
+    shared_table: core_credit_towards_award
+    enterprise_contract: 5-data-contracts/core_credit_towards_award_v1.yaml
+    data_products: [learner_records, learners_near_an_award, learner_wallet, tuition_forgone]
+
+  - name: graduation and printed name
+    data_object: UNI.DOBJ2.4
+    glossary_term: none yet
+    owner: "Mei Tanaka, registrar's office"
+    steward: graduations office
+    level: confidential
+    personal_data: direct
+    recorded_first_in: student system
+    copies_in: [portal]
+    shared_table: none (marts only, for the graduations office)
+    enterprise_contract: none
+    data_products: [graduation_list, names_to_confirm, name_reports]
+
+  - name: short-course enrolment
+    data_object: UNI.DOBJ2.5
+    glossary_term: none yet
+    owner: Learning team
+    steward: Learning team
+    level: confidential
+    personal_data: direct
+    recorded_first_in: short-courses system
+    copies_in: []
+    shared_table: none (a mart only, for the learning team)
+    enterprise_contract: none
+    data_products: [short_course_follow_ups]
+
+  - name: award
+    data_object: UNI.DOBJ3.1
+    glossary_term: Award
+    owner: "Mei Tanaka, registrar's office"
+    steward: registrar's office stewards
+    level: confidential
+    personal_data: none
+    recorded_first_in: student system
+    copies_in: []
+    shared_table: core_award
+    enterprise_contract: 5-data-contracts/core_award_v1.yaml
+    data_products: [awards, learners_near_an_award, tuition_forgone, graduation_list]
+
+  - name: contract
+    data_object: UNI.DOBJ4.1
+    glossary_term: none yet
+    owner: HR
+    steward: HR
+    level: confidential
+    personal_data: direct
+    recorded_first_in: HR system
+    copies_in: []
+    shared_table: none (staged and read by marts; agreed with HR team to team)
+    enterprise_contract: none
+    data_products: [teaching_workload, tutor_newsletters]
+
+  - name: claim
+    data_object: UNI.DOBJ4.2
+    glossary_term: none, confirmed by data governance on 2026-03-04
+    owner: HR
+    steward: HR
+    level: confidential
+    personal_data: pseudonymous
+    recorded_first_in: claims app
+    copies_in: []
+    shared_table: core_claim
+    enterprise_contract: 5-data-contracts/core_claim_v1.yaml
+    data_products: [claims, hours_to_pay, payroll_export, casual_teaching_cost]
+
+  - name: consent to news
+    data_object: UNI.DOBJ4.3
+    glossary_term: none yet
+    owner: HR
+    steward: HR
+    level: confidential
+    personal_data: direct
+    recorded_first_in: HR system
+    copies_in: []
+    shared_table: none (a mart only, for HR)
+    enterprise_contract: none
+    data_products: [tutor_newsletters]
+
+  - name: pay run
+    data_object: UNI.DOBJ5.1
+    glossary_term: Casual pay paid
+    owner: HR
+    steward: HR
+    level: confidential
+    personal_data: none (totals only)
+    recorded_first_in: payroll system
+    copies_in: []
+    shared_table: none (built from approved claims, for the payroll system)
+    enterprise_contract: none
+    data_products: [hours_to_pay, payroll_export]
+
+  - name: published tuition rate
+    data_object: UNI.DOBJ5.2
+    glossary_term: none yet
+    owner: Finance
+    steward: Finance
+    level: public
+    personal_data: none
+    recorded_first_in: dbt project
+    copies_in: []
+    shared_table: none (reference data, a seed)
+    enterprise_contract: none
+    data_products: [tuition_forgone]
