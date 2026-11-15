@@ -84,7 +84,7 @@ Or load them as the platform team does each night: `scripts/setup/loading_pipeli
 Lakeflow pipeline that checks each row has its system key as it's loaded, and keeps out and counts
 those that don't; its header says how to set it up. Then `scripts/setup/monitoring.py` sets up the
 monitors that watch the tables for what no rule names, and tell each table's owner: anomaly
-detection on the three schemas (in Public Preview), a profile of the badges, and an alert on it.
+detection on the three schemas, a profile of the badges, and an alert on it.
 Their results and the pipeline's counts join the scorecard (`analyses/quality/platform_results.sql`;
 `examples/platform-results/` shows a night's).
 

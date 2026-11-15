@@ -18,7 +18,7 @@ platform*, film 3 of 6 of *Governance you can use*, shows it.
 
 The new words aren't written into the conceptual model: `--write` would replace `award`'s
 definition and `synced_on` and regenerate its doc block, and other films show the words synced on
-14 October. On 28 October 2026, Databricks shows the glossary's terms as Pages, in beta, and
+14 October. On 28 October 2026, Databricks shows the glossary's terms as Pages, and
 documents no API to read them, so the export is the one the glossary's service writes when it
 publishes a term; the sync reads either.
 

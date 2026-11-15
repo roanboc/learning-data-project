@@ -1,7 +1,7 @@
 """Sets up the platform's monitoring of the sample sources, on Databricks: the checks for what no rule
 names. Kept as code, so a change to a monitor is reviewed like a change to a test.
 
-- Anomaly detection (in Public Preview) on the three source schemas: it learns when each table
+- Anomaly detection on the three source schemas: it learns when each table
   usually arrives and how many rows it brings, with no rule written, and marks a table unhealthy
   when it's late or short. The schema's owner is told: meta.owner on its source, at the address in
   20-data-governance/2-owners/owners.yml.
