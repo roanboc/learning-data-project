@@ -1,5 +1,5 @@
 -- Governance: who read a table, and when, from Unity Catalog's audit log, the system table
--- system.access.audit (in Public Preview; it keeps a year). Databricks only, like the policy
+-- system.access.audit (it keeps a year). Databricks only, like the policy
 -- (docs/databricks-governance.md, section 6). A read is a getTable event, with the table's full
 -- name in request_params.full_name_arg. Here: who read the learner table this month.
 -- Compile it, then run the SQL in target/compiled/ on a SQL warehouse:

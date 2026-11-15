@@ -55,7 +55,7 @@ column with its own mask conflicts with a policy on it, so use this or step 2, n
    `account users` except the readers, matching `has_tag_value('personal_data', 'direct')`.
    `SHOW EFFECTIVE POLICIES` shows what applies to a table.
 
-Some of ABAC is in Beta (policies on views, on the whole metastore): check what's in preview on the day.
+Not every kind of ABAC policy covers everything (policies on views, on the whole metastore): check on the day.
 
 ## 4. Products in a catalogue
 
@@ -89,7 +89,7 @@ The catalog and its schemas stay as dbt builds them, a schema for each layer: `p
 
 Unity Catalog's audit log, the system table `system.access.audit`, records who read each table,
 and when: a read is a `getTable` event, with the table's full name in `request_params.full_name_arg`.
-It's in Public Preview, and keeps a year. `analyses/governance/who_read_a_table.sql` asks who read
+It keeps a year. `analyses/governance/who_read_a_table.sql` asks who read
 the learner table this month:
 
 ```bash
@@ -131,7 +131,7 @@ where it lives).
 
 2. **One place to ask.** On the platform, the catalog's access request destination is a redirect URL
    to the catalogue: someone who asks for a table on the platform goes to the catalogue's form instead
-   of the platform's. Unity Catalog's access requests are in Public Preview.
+   of the platform's, through Unity Catalog's access request destinations.
 3. **A request with a reason and an end.** In the catalogue, a request says why, and for how long:
    30, 60 or 90 days, never without a date. It goes to the owners of the product's domain: for
    *Learners near an award*, Clara Jensen, Planning (`20-data-governance/4-data-products/learners_near_an_award.yml`),
@@ -185,13 +185,13 @@ for people.
    grant execute on function <production catalog>.<research schema>.active_projects to `<project check agent>`;
    ```
 
-4. **Models and tool servers, through Unity Gateway.** Unity Gateway, part of Unity Catalog, has been
-   generally available since 4 August 2026. Each model the university allows is a model service in
+4. **Models and tool servers, through Unity Gateway.** Unity Gateway, part of Unity Catalog, governs
+   every model and tool server the agents call. Each model the university allows is a model service in
    the catalog. By default only its owner can call it: to let an agent call it, grant the agent's
    service principal `EXECUTE` on it, with `USE CATALOG` and `USE SCHEMA` on its catalog and schema.
    Tool servers from outside are registered the same way, as MCP services, each with its own
    `EXECUTE`. On each service:
-   - **Service policies**, in Beta, check what goes in and what comes out.
+   - **Service policies** check what goes in and what comes out.
      `system.ai.detect_sensitive_data` finds structured personal data in a prompt, such as an email
      address, and blocks the call or redacts the value; it finds no names.
      `system.ai.block_jailbreak` detects jailbreak and prompt-injection content.
@@ -444,8 +444,8 @@ Once, on the platform (checked 10 November 2026):
    table and a confidential one would be a conflict every time. Each class then follows its column
    through lineage into the tables and views made from it on serverless compute, usually within
    minutes, with nobody tagging them. Two values for one tag in one column is a conflict: the column
-   takes the default value. A policy can't see a tag until it has arrived. Propagation is in Beta on
-   10 November 2026: a workspace admin turns it on first, on the *Previews* page.
+   takes the default value. A policy can't see a tag until it has arrived. A workspace admin turns
+   propagation on first, on the *Previews* page (checked 10 November 2026).
 3. Look for conflicts. `analyses/governance/classes_against_lineage.sql` lists every column whose class
    differs from the class of a column it was made from. In this project, the marts'
    `learner_award_key` is one: it's made from the learner table's `learner_bk` (`direct`), and its YAML

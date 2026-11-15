@@ -3,7 +3,7 @@
 -- Each kind of check names its quality dimension, as each kind of dbt test does (tests/generic/):
 --   - the loading pipeline's expectation has_an_id (scripts/setup/loading_pipeline.sql), from its
 --     event log: rows kept out at loading, completeness. A row kept out is a warning: nothing stops;
---   - anomaly detection (in Public Preview), from system.data_quality_monitoring.table_results:
+--   - anomaly detection, from system.data_quality_monitoring.table_results:
 --     each table's freshness, timeliness, and its rows of the last 24 hours, completeness. An
 --     unhealthy table is a warning, and one it can't judge yet isn't counted;
 --   - the badges' profile: the share of a day's badges with no credit, validity, as the rule it
