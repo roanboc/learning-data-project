@@ -1,7 +1,8 @@
 """Checks data governance's own files, and writes its matrices.
 
 - 9-information-assets/information-assets.yml: every owner is in 2-owners/owners.yml, every glossary term
-  is in 1-glossary/business-glossary.yml (or says none, and why), every data object is on the enterprise
+  is in 1-glossary/business-glossary.yml (or says none, and why) and owned there by the asset owner's area,
+  the area that answers for the data, so its words and its data have one owner; every data object is on the enterprise
   architecture's map (UNI.DOBJ<n>.<n>, in ../10-enterprise-architecture/architecture/3_information/), every
   enterprise contract is a file in 5-data-contracts/ and every data product a file in 4-data-products/.
 - 11-metrics/*.ossie.yaml: every metric document is valid Apache Ossie 0.1.1 (7-standards/), names each
@@ -45,9 +46,14 @@ def map_objects():
     return ids
 
 
+def area(owner):
+    """The area an owner answers for: "Ingrid Holm, HR" and "HR" are both HR's."""
+    return re.sub(r", with .*$", "", str(owner)).split(", ")[-1].strip().lower()
+
+
 def check_assets(problems):
     owners = {o["name"] for o in load(ROOT / "2-owners" / "owners.yml")["owners"]}
-    terms = {t["term"] for t in load(ROOT / "1-glossary" / "business-glossary.yml")["terms"]}
+    terms = {t["term"]: t.get("owner") for t in load(ROOT / "1-glossary" / "business-glossary.yml")["terms"]}
     products = {p.stem for p in (ROOT / "4-data-products").glob("*.yml")}
     objects = map_objects()
     assets = load(ASSETS)["assets"]
@@ -64,6 +70,9 @@ def check_assets(problems):
         if not term.startswith("none") and term not in terms:
             problems.append(f"{where}: {term!r} isn't a term in 1-glossary/business-glossary.yml; "
                             "name one there, or say none and who confirmed it")
+        elif term in terms and area(terms[term]) != area(asset.get("owner")):
+            problems.append(f"{where}: the term {term!r} is owned by {terms[term]!r} in the glossary, another area "
+                            f"than the asset's owner, {asset.get('owner')!r}: the area that answers for the data owns its words too")
         obj = str(asset.get("data_object", ""))
         if not obj.startswith("UNI.") or obj[4:] not in objects:
             problems.append(f"{where}: {obj!r} isn't a data object on the enterprise architecture's map")
