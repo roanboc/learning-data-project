@@ -1,17 +1,20 @@
 # Checks the enterprise architecture (10-enterprise-architecture/) with ArChreator's validators, and data
 # governance's own files (20-data-governance/): the information assets, the Ossie metrics and the matrices.
-# Governance cites the architecture's data objects, so it is checked when either changes.
+# Governance cites the architecture's data objects, so it is checked when either changes; the architecture copies
+# Analytics' questions (00-initiatives/), so it is checked when they change too.
 name: Architecture and governance
 
 on:
   pull_request:
     paths:
+      - 00-initiatives/**
       - 10-enterprise-architecture/**
       - 20-data-governance/**
       - .github/workflows/architecture-and-governance.yml
   push:
     branches: [main]
     paths:
+      - 00-initiatives/**
       - 10-enterprise-architecture/**
       - 20-data-governance/**
       - .github/workflows/architecture-and-governance.yml
@@ -45,6 +48,9 @@ jobs:
 
       - name: Every model page speaks about its subject
         run: python3 scripts/check_prose.py
+
+      - name: Every driver's question is Analytics' question of the same number
+        run: python3 scripts/check_questions.py
 
   governance:
     runs-on: ubuntu-latest

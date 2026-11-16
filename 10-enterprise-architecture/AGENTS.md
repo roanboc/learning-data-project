@@ -15,7 +15,8 @@ can read all three in one place.
 questions its data answers. Every level-1 capability area and every data
 domain is named, so the map is whole; below level 1, only what a question in
 [`architecture/1_strategy/1_motivation.md`](./architecture/1_strategy/1_motivation.md)
-needs. A new question adds a driver first, then only the capabilities,
+needs. A new question comes from Analytics' records
+([`../00-initiatives/`](../00-initiatives/README.md)): it adds a driver of the same number first, then only the capabilities,
 services, objects and systems it needs. Domains (`architecture/domains/`) stay
 unused.
 
@@ -32,7 +33,8 @@ unused.
 - **Federation ID:** `UNI`.
 - **Links point one way.** This model names data governance's map and the
   data project's folders as where things are realized; neither of them is
-  needed to read it, and nothing here is copied from them.
+  needed to read it, and nothing here is copied from them. Each driver's question is copied from Analytics' records in
+  `../00-initiatives/`, and `scripts/check_questions.py` fails if the two differ.
 - Relationships between peers are in
   [`architecture/relationships.md`](./architecture/relationships.md); the
   others are the catalogues' columns.
@@ -42,9 +44,10 @@ unused.
 python3 scripts/check_links.py
 python3 scripts/check_model.py
 python3 scripts/check_prose.py
+python3 scripts/check_questions.py
 ```
 
-They came with ArChreator's scaffold, unchanged (MIT licence).
+The first three came with ArChreator's scaffold, unchanged (MIT licence); `check_questions.py` is this project's.
 
 ## Delivery
 

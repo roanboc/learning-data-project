@@ -1,10 +1,12 @@
 # The university's data, end to end
 
 The example behind the [Learning Data](https://data.learn-all.org/) films: one fictional university, from
-why its data matters to the code that answers its questions. Three folders, in the order to read them:
+why its data matters to the code that answers its questions. Where a question starts, then three folders, in the
+order to read them:
 
 | Folder | Whose it is, usually | What it holds |
 |---|---|---|
+| [`00-initiatives/`](00-initiatives/README.md) | Analytics, and each initiative's sponsor, in their records and in Jira | Every question Analytics is asked: who asks, what's known of the answer, who checks the result; each initiative's business requirements, as its tickets hold them |
 | [`10-enterprise-architecture/`](10-enterprise-architecture/README.md) | The enterprise architecture team, in an architecture tool | Who asks which question, what the university must be able to do, who takes part, which information it holds, which systems record it. Written with [ArChreator](https://github.com/roanboc/archreator) |
 | [`20-data-governance/`](20-data-governance/README.md) | Data governance, in a catalogue, a glossary tool or a suite of them | The business glossary, owners, the governance part of the map, information assets, data products and contracts in open standards, matrices, agent mandates, metrics in Apache Ossie |
 | [`30-data-project/`](30-data-project/README.md) | The data team, in its own repository | The dbt project that builds and tests every answer; it runs on a laptop with DuckDB and on Databricks |
@@ -19,8 +21,9 @@ side by side for two reasons.
   and no data governance tool or team. These folders show the minimum to write down when nothing else
   exists, and each one is enough on its own.
 - **Agents can read it all.** Plain files in one repository are easy for an AI agent to walk: from a
-  question in the architecture's motivation, to the information asset and its owner in governance, to the
-  model and its test in the data project, with no tool to sign in to.
+  question in Analytics' records, to the data objects and systems of record in the architecture, to the
+  glossary entity, the owner and the contract in governance, to the model and its test in the data project,
+  with no tool to sign in to. The initiatives folder stands in for Analytics' records and the tickets.
 
 Each folder stands alone: its own README, `AGENTS.md`, checks and owners (`.github/CODEOWNERS`), so a team
 could lift it into a repository of its own unchanged.
@@ -28,15 +31,17 @@ could lift it into a repository of its own unchanged.
 ## Wide at the top, only what is needed below
 
 The architecture names every area of the university and every data domain, so the map is whole. Below
-that it holds only what one of the questions in its motivation needs: Planning's count of learners near
+that it holds only what one of Analytics' questions needs (`00-initiatives/`): Planning's count of learners near
 a graduate certificate, the learner's wallet, tuition saved by recognised credit, the graduation list,
 pay on Thursday, casual teaching cost, who teaches this term, short-course follow-ups and what an agent
-may do alone. A new question adds a driver first, then only what it needs, in each folder in turn.
+may do alone, which is data governance's own question. A new question is recorded by Analytics first; then the
+architecture adds a driver of the same number, and each folder in turn adds only what it needs.
 
 ## Links point one way
 
-A check or a build only ever reads in one direction: the data project reads governance's files, and
-governance cites the architecture's elements. The architecture names where each thing is realized, as an
+A check or a build only ever reads in one direction: the data project reads governance's files,
+governance cites the architecture's elements, and the architecture copies Analytics' questions, with a check that
+fails if the two differ. The architecture names where each thing is realized, as an
 address, but reads nothing from the other two, so each team can change its own folder without breaking
 another's checks.
 
@@ -48,9 +53,15 @@ Here that business context comes first, written by the teams that own it, and fl
 
 ```mermaid
 flowchart LR
+  subgraph IN["00 · Initiatives: where a question starts"]
+    direction TB
+    aq["Question, in Analytics' records<br/>AQ1: who is near a graduate certificate?"]
+    br["Business requirement, in a ticket<br/>BR1, ticket DATA-142"]
+    aq --> br
+  end
   subgraph EA["10 · Enterprise architecture: why, and where"]
     direction TB
-    q["Question (driver)<br/>DRV1: who is near a graduate certificate?"]
+    q["Driver: the same question<br/>DRV1"]
     c["Capability<br/>CAP1.3: learner records"]
     o["Data object<br/>DOBJ2.1: learner"]
     a["System of record<br/>ACMP1: student system"]
@@ -71,6 +82,8 @@ flowchart LR
     s["Sources"] --> st["Staging"] --> co["Core: canonical, public"] --> ma["Marts: one per consumer"] --> sm["Metrics and exposures"]
     ch["Checks against governance"]
   end
+  br ==>|taken as a driver| q
+  o -.->|mapped to a glossary entity| t
   o -.->|refined by| i
   k ==>|the core model is built to it| co
   p ==>|describes| ma
@@ -80,8 +93,8 @@ flowchart LR
 ```
 
 The arrows show who reads whom. The data project reads governance's files and checks itself against them;
-governance cites the architecture's elements; nothing reads the other way, so each team changes its own
-folder without breaking another's checks.
+governance cites the architecture's elements; the architecture copies Analytics' questions; nothing reads the
+other way, so each team changes its own folder without breaking another's checks.
 
 ### The layers of the data project
 
@@ -101,10 +114,11 @@ information architect. The marts' contracts are agreed team to team.
 
 ### One answer, followed
 
-Planning's question, from the architecture to the number, with the open standard at each step:
+Planning's question, from Analytics' records to the number, with the open standard at each step:
 
 | Step | Element | Standard | Where it lives |
 |---|---|---|---|
+| Where it starts | Question `AQ1` in Analytics' records, with who checks the result; requirement `BR1` in ticket `DATA-142` | | [`00-initiatives/`](00-initiatives/analytics-questions.md) |
 | Who asks, and why | Driver `DRV1`, stakeholder Planning, goal *every measure defined once* | ArchiMate's elements | [`1_strategy/1_motivation.md`](10-enterprise-architecture/architecture/1_strategy/1_motivation.md) |
 | What exists | Data object `DOBJ2.1` *Learner*, first recorded in the student system | ArchiMate's elements | [`3_information/1_data-domains-and-objects.md`](10-enterprise-architecture/architecture/3_information/1_data-domains-and-objects.md) |
 | What the words mean | *Award*, and its owner, Mei Tanaka; *learner* has no term, an absence data governance confirmed | | [`1-glossary/business-glossary.yml`](20-data-governance/1-glossary/business-glossary.yml) |
@@ -137,7 +151,7 @@ layer is a stated gap), and no value stream is modelled, since no question here 
 ## Check it
 
 ```bash
-(cd 10-enterprise-architecture && python3 scripts/check_links.py && python3 scripts/check_model.py && python3 scripts/check_prose.py)
+(cd 10-enterprise-architecture && python3 scripts/check_links.py && python3 scripts/check_model.py && python3 scripts/check_prose.py && python3 scripts/check_questions.py)
 (cd 20-data-governance && pip install pyyaml jsonschema && python scripts/check.py --check)
 (cd 30-data-project && pip install -r requirements.txt && dbt build --profiles-dir .)
 ```
