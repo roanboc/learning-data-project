@@ -67,12 +67,12 @@ def read_glossary(path):
 
 
 def synced_entities():
-    """Every entity with source:, with its file and the names other definitions may use for it."""
+    """Every entity and relationship with source:, with its file and the names other definitions may use for it."""
     found = []
     for path in CONCEPTUAL:
         model = yaml.safe_load(path.read_text())
-        for entity in model.get("entities", []):
-            if entity.get("source"):
+        for entity in (model.get("entities") or []) + (model.get("relationships") or []):
+            if isinstance(entity, dict) and entity.get("source"):
                 found.append((path, model, entity))
     return found
 
@@ -189,7 +189,7 @@ def rewrite(path, entity_name, definition, synced_on):
     body = textwrap.fill(words(definition), width=100, initial_indent=pad, subsequent_indent=pad) + "\n"
     lines[d:body_end] = [" " * indent + "definition: >\n", body]
     text = "".join(lines)
-    text = re.sub(rf"(- name: {re.escape(entity_name)}\b[\s\S]*?synced_on: )\S+", rf"\g<1>{synced_on}", text, count=1)
+    text = re.sub(rf"(- name: {re.escape(entity_name)}\b[\s\S]*?synced_on: )\d{{4}}-\d{{2}}-\d{{2}}", rf"\g<1>{synced_on}", text, count=1)
     path.write_text(text)
 
 

@@ -27,7 +27,7 @@ assets:
 
   - name: learner
     data_object: UNI.DOBJ2.1
-    glossary_term: none, confirmed by data governance on 2026-10-20
+    glossary_term: Learner
     owner: "Mei Tanaka, registrar's office"
     steward: registrar's office stewards
     level: confidential
@@ -40,7 +40,7 @@ assets:
 
   - name: credential
     data_object: UNI.DOBJ2.2
-    glossary_term: none, confirmed by data governance on 2026-10-20
+    glossary_term: Credential
     owner: "Mei Tanaka, registrar's office"
     steward: registrar's office stewards
     level: confidential
@@ -53,7 +53,7 @@ assets:
 
   - name: credit towards an award
     data_object: UNI.DOBJ2.3
-    glossary_term: none, confirmed by data governance on 2026-10-20
+    glossary_term: Credit towards an award
     owner: "Mei Tanaka, registrar's office"
     steward: registrar's office stewards
     level: confidential

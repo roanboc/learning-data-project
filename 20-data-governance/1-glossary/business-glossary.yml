@@ -4,8 +4,8 @@
 # export of the platform's copy (30-data-project/skills/sync-the-glossary/example_glossary.json), and
 # its check fails if a term there differs from this file (30-data-project/scripts/check/from_governance.py).
 #
-# A term is decided here, by its owner, before any code. An entity the glossary has no term for says so
-# in its conceptual model, with who confirmed the absence (no_glossary_term:), as the learner does.
+# A term is decided here, by its owner, before any code: the area that answers for its data, the owner
+# its information asset names. An entity with no term says so in its conceptual model (no_glossary_term:).
 
 glossary: the university's business glossary
 terms:
@@ -36,6 +36,21 @@ terms:
     A student who comes back to a course they had already started, after leave or a break, isn't commencing.
   owner: Mei Tanaka, registrar's office
   updated_on: '2026-11-04'
+- term: Credential
+  definition: A trusted, checkable statement that someone has shown what they know or can do. Awards,
+    microcredentials and badges are kinds of credential; a certificate of attendance isn't one.
+  owner: Mei Tanaka, registrar's office
+  updated_on: '2026-11-16'
+- term: Credit towards an award
+  definition: 'The credit points a learner holds towards an award: from units passed under it, and from
+    the microcredentials it recognises.'
+  owner: Mei Tanaka, registrar's office
+  updated_on: '2026-11-16'
+- term: Learner
+  definition: 'A person the university has recorded learning with it, in any of its systems: a student
+    of an award, a learning platform user, or a short-course customer.'
+  owner: Mei Tanaka, registrar's office
+  updated_on: '2026-11-16'
 - term: Unit offering
   definition: A unit taught in a semester, on campus, online or both.
   owner: Mei Tanaka, registrar's office

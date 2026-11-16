@@ -1,6 +1,6 @@
 {
   "glossary": "Unity Catalog Glossary",
-  "read_on": "2026-11-04",
+  "read_on": "2026-11-16",
   "terms": [
     {
       "term": "Award",
@@ -31,6 +31,24 @@
       "definition": "A student who started a course at the university for the first time in the year being counted. A student who comes back to a course they had already started, after leave or a break, isn't commencing.",
       "owner": "Mei Tanaka, registrar's office",
       "updated_on": "2026-11-04"
+    },
+    {
+      "term": "Credential",
+      "definition": "A trusted, checkable statement that someone has shown what they know or can do. Awards, microcredentials and badges are kinds of credential; a certificate of attendance isn't one.",
+      "owner": "Mei Tanaka, registrar's office",
+      "updated_on": "2026-11-16"
+    },
+    {
+      "term": "Credit towards an award",
+      "definition": "The credit points a learner holds towards an award: from units passed under it, and from the microcredentials it recognises.",
+      "owner": "Mei Tanaka, registrar's office",
+      "updated_on": "2026-11-16"
+    },
+    {
+      "term": "Learner",
+      "definition": "A person the university has recorded learning with it, in any of its systems: a student of an award, a learning platform user, or a short-course customer.",
+      "owner": "Mei Tanaka, registrar's office",
+      "updated_on": "2026-11-16"
     },
     {
       "term": "Unit offering",
