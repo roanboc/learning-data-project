@@ -80,10 +80,10 @@ flowchart LR
   classDef driver fill:#e6d6f5,stroke:#8e63c8,color:#333
 ```
 
-Each driver is a question somebody asked and the example project answers.
-Nothing else is modelled: a question nobody asked has no driver, so it has no
-capability, service or data object below it either. `DRV6` is three
-stakeholders' question, because the one name meant three different sums.
+Each driver is a question from Analytics' records, under the same number there
+([`00-initiatives/analytics-questions.md`](../../../00-initiatives/analytics-questions.md)), brought in by an initiative's ticket.
+Nothing else is modelled: a question nobody asked has no driver, so it has no capability, service or data object below it
+either. `DRV6` is three stakeholders' question, because the one name meant three different sums.
 
 | ID | Driver: the question | Asked by | Source |
 | -- | -------------------- | -------- | ------ |

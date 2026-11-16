@@ -47,8 +47,8 @@ no question here needs beyond a learner's or a person's key.
 | ID | Application component | Serves | Specification | Realized by |
 | -- | --------------------- | ------ | ------------- | ----------- |
 | `ACMP1` | **Student system**: learners, awards, enrolments, graduations | `BSVC1`, `BSVC2`, `BSVC3`, `BSVC4` | The vendor's; the project reads it as a source | `30-data-project/sources/student_system/` |
-| `ACMP2` | **Learning platform**: accounts and badges | `BSVC2` | The vendor's | `30-data-project/sources/learning_platform/` |
-| `ACMP3` | **Short-courses system** | `BSVC8` | The vendor's | `30-data-project/sources/short_courses/` |
+| `ACMP2` | **Learning platform**: learners' accounts, and badges | `BSVC2` | The vendor's | `30-data-project/sources/learning_platform/` |
+| `ACMP3` | **Short-courses system**: enrolments, with each learner's email | `BSVC8` | The vendor's | `30-data-project/sources/short_courses/` |
 | `ACMP4` | **Portal**: name confirmations and name reports | `BSVC4` | The university's own | `30-data-project/sources/portal/` |
 | `ACMP5` | **HR system**: staff, contracts, tutors' wishes | `BSVC7`, `BSVC9` | The vendor's; its interface agreed team to team | `30-data-project/examples/hr-system-interface/` |
 | `ACMP6` | **Claims app**: casual staff's claims | `BSVC5`, `BSVC6` | The university's own | `30-data-project/sources/claims_app/` |
