@@ -12,11 +12,13 @@ text, so people and agents can read them beside the rest of the project.
 | ---- | ---------- | ---------- |
 | [`analytics-questions.md`](analytics-questions.md) | Every question Analytics has been asked that the project answers: who asks, what's known of the answer, who checks the result, its initiative and its ticket | Analytics |
 | [`census-planning-2026.md`](census-planning-2026.md) | One initiative written out: why, its business requirements as its ticket holds them, and when each is accepted | Its sponsor, Clara Jensen, with Analytics |
+| [`goals/learning-and-teaching.md`](goals/learning-and-teaching.md) | One area's goal, the questions that show whether it's met and a measure for each, laid out as a tree: the questions already asked, and the ones the data team suggests first | The data team, with the goal's owner, Clara Jensen |
 
 ## From a question to the code
 
 1. **A question, in Analytics' records.** Who asks, what for, what's known of the answer, and who will
-   check the result.
+   check the result. Some start as the data team's suggestions, from a goal's tree in
+   [`goals/`](goals/learning-and-teaching.md), and are recorded once their owner says yes.
 2. **An initiative, and its ticket.** The question becomes a business requirement in the initiative's
    documentation, and goes into a ticket. The people who asked approve the ticket and close it, once
    they've checked the result.

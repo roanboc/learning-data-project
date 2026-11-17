@@ -6,7 +6,7 @@ order to read them:
 
 | Folder | Whose it is, usually | What it holds |
 |---|---|---|
-| [`00-initiatives/`](00-initiatives/README.md) | Analytics, and each initiative's sponsor, in their records and in Jira | Every question Analytics is asked: who asks, what's known of the answer, who checks the result; each initiative's business requirements, as its tickets hold them |
+| [`00-initiatives/`](00-initiatives/README.md) | Analytics, and each initiative's sponsor, in their records and in Jira | Every question Analytics is asked: who asks, what's known of the answer, who checks the result; each initiative's business requirements, as its tickets hold them; a goal per area, with its questions and measures as a tree, and the questions the data team suggests first |
 | [`10-enterprise-architecture/`](10-enterprise-architecture/README.md) | The enterprise architecture team, in an architecture tool | Who asks which question, what the university must be able to do, who takes part, which information it holds, which systems record it. Written with [ArChreator](https://github.com/roanboc/archreator) |
 | [`20-data-governance/`](20-data-governance/README.md) | Data governance, in a catalogue, a glossary tool or a suite of them | The business glossary, owners, the governance part of the map, information assets, data products and contracts in open standards, matrices, agent mandates, metrics in Apache Ossie |
 | [`30-data-project/`](30-data-project/README.md) | The data team, in its own repository | The dbt project that builds and tests every answer; it runs on a laptop with DuckDB and on Databricks |
