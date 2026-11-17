@@ -5,7 +5,7 @@ Where a question starts, then three folders, each a team's, each with its own `A
 
 | Folder | Its rules |
 |---|---|
-| `00-initiatives/` | [AGENTS.md](00-initiatives/AGENTS.md): Analytics' questions and the initiatives' tickets; a question starts here |
+| `00-initiatives/` | [AGENTS.md](00-initiatives/AGENTS.md): Analytics' questions, the initiatives' tickets and each goal's tree of questions; a question starts here |
 | `10-enterprise-architecture/` | [AGENTS.md](10-enterprise-architecture/AGENTS.md): ArChreator's method; a change is aligned through the layers |
 | `20-data-governance/` | [README.md](20-data-governance/README.md): who writes each folder, and the check |
 | `30-data-project/` | [AGENTS.md](30-data-project/AGENTS.md): how the data team works, what agents may do |
