@@ -31,3 +31,10 @@ Where a question starts, then three folders, each a team's, each with its own `A
 ## Checks
 
 Before every push, the checks in the root README's *Check it*; CI runs the same.
+
+## Hooks
+
+`.claude/settings.json` runs `.github/hooks/guard.py` before and after Claude Code's tools, and GitHub's *Guards* check runs
+the same rules on every change: no force-push or push to main, no Claude trailers, squash merges, dbt writes only on the
+duckdb target, samples of at most 20 rows, nothing that changes Databricks, no secrets, no hand edits of generated files, and
+a weakened test fed back. A refusal says what to do instead ([.github/hooks/README.md](.github/hooks/README.md)).
